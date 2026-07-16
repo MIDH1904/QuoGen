@@ -19,6 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.22.0",
     "puppeteer": "^22.6.0",
+    "puppeteer-core": "^22.6.0",
+    "@sparticuz/chromium": "^122.0.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },

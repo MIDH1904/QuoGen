@@ -1,4 +1,15 @@
-const puppeteer = require('puppeteer');
+const puppeteerCore = require('puppeteer-core');
+const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+
+let puppeteer;
+let chromium;
+
+if (isVercel) {
+  puppeteer = puppeteerCore;
+  chromium = require('@sparticuz/chromium');
+} else {
+  puppeteer = require('puppeteer');
+}
 
 function formatCurrency(val) {
   if (val === undefined || val === null || isNaN(val)) return 'Rs. 0/-';
@@ -675,10 +686,21 @@ async function generateQuotationPdf(data) {
 </html>
   `;
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  let browser;
+  if (isVercel) {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
+  } else {
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+  }
 
   try {
     const page = await browser.newPage();
