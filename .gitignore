@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules/
+frontend/node_modules/
+
+# Local env files (highly critical - contains Supabase password)
+.env
+.env.local
+
+# SQLite local databases (leftovers)
+*.sqlite
+*.sqlite-journal
+
+# System files & OS caching
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+.gemini/
+.agents/
+.system_generated/
