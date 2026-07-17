@@ -431,10 +431,9 @@ router.post('/admin/users', requireAdmin, async (req, res) => {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
     const insertRes = await db.query(
       'INSERT INTO "User" (name, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id',
-      [name.trim(), email.trim(), passwordHash, role]
+      [name.trim(), email.trim(), password, role]
     );
 
     const newUser = await db.query('SELECT id, name, email, role FROM "User" WHERE id = $1', [insertRes.rows[0].id]);
@@ -471,10 +470,9 @@ router.put('/api/admin/users/:id', requireAdmin, async (req, res) => {
     }
 
     if (password && password.trim()) {
-      const passwordHash = await bcrypt.hash(password, 10);
       await db.query(
         'UPDATE "User" SET name = $1, email = $2, role = $3, password_hash = $4 WHERE id = $5',
-        [name.trim(), email.trim(), role, passwordHash, id]
+        [name.trim(), email.trim(), role, password, id]
       );
     } else {
       await db.query(

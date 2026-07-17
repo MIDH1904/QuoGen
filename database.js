@@ -92,18 +92,24 @@ async function initializeDatabase() {
     const userCountRes = await client.query('SELECT COUNT(*) FROM "User"');
     const userCount = parseInt(userCountRes.rows[0].count, 10);
     if (userCount === 0) {
-      const adminHash = await bcrypt.hash('admin123', 10);
-      const userHash = await bcrypt.hash('user123', 10);
-
       await client.query(
         'INSERT INTO "User" (name, email, password_hash, role) VALUES ($1, $2, $3, $4)',
-        ['Admin User', 'admin@roshnisolar.in', adminHash, 'admin']
+        ['Admin User', 'admin@roshnisolar.in', 'admin123', 'admin']
       );
       await client.query(
         'INSERT INTO "User" (name, email, password_hash, role) VALUES ($1, $2, $3, $4)',
-        ['Standard User', 'user@roshnisolar.in', userHash, 'user']
+        ['Standard User', 'user@roshnisolar.in', 'user123', 'user']
       );
-      console.log('Seeded Users in Supabase.');
+      console.log('Seeded Users in Supabase (Plaintext).');
+    } else {
+      // Force update seeded users to plaintext passwords for testing
+      await client.query(
+        "UPDATE \"User\" SET password_hash = 'admin123' WHERE email = 'admin@roshnisolar.in'"
+      );
+      await client.query(
+        "UPDATE \"User\" SET password_hash = 'user123' WHERE email = 'user@roshnisolar.in'"
+      );
+      console.log('Reset seeded users to plaintext passwords in Supabase.');
     }
 
     // Seed Panel Companies
