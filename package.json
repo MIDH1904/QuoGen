@@ -12,6 +12,7 @@
     "install-all": "npm install && npm install --prefix frontend"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^149.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -19,8 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.22.0",
     "puppeteer": "^22.6.0",
-    "puppeteer-core": "^22.6.0",
-    "@sparticuz/chromium": "^122.0.0",
+    "puppeteer-core": "^25.3.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },

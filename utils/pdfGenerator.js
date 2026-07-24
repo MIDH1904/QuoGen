@@ -6,6 +6,11 @@ let chromium;
 
 if (isVercel) {
   puppeteer = puppeteerCore;
+  // Dynamically set AWS_LAMBDA_JS_RUNTIME on Vercel to ensure @sparticuz/chromium detects AL2023 compatibility
+  if (!process.env.AWS_LAMBDA_JS_RUNTIME) {
+    const nodeMajor = process.version.split('.')[0].slice(1);
+    process.env.AWS_LAMBDA_JS_RUNTIME = `nodejs${nodeMajor}.x`;
+  }
   chromium = require('@sparticuz/chromium');
 } else {
   puppeteer = require('puppeteer');
