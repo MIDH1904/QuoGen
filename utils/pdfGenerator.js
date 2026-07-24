@@ -1,20 +1,4 @@
-const puppeteerCore = require('puppeteer-core');
 const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
-
-let puppeteer;
-let chromium;
-
-if (isVercel) {
-  puppeteer = puppeteerCore;
-  // Dynamically set AWS_LAMBDA_JS_RUNTIME on Vercel to ensure @sparticuz/chromium detects AL2023 compatibility
-  if (!process.env.AWS_LAMBDA_JS_RUNTIME) {
-    const nodeMajor = process.version.split('.')[0].slice(1);
-    process.env.AWS_LAMBDA_JS_RUNTIME = `nodejs${nodeMajor}.x`;
-  }
-  chromium = require('@sparticuz/chromium');
-} else {
-  puppeteer = require('puppeteer');
-}
 
 function formatCurrency(val) {
   if (val === undefined || val === null || isNaN(val)) return 'Rs. 0/-';
@@ -39,6 +23,23 @@ function getFiscalYear(dateStr) {
 }
 
 async function generateQuotationPdf(data) {
+  let puppeteer;
+  let chromium;
+
+  if (isVercel) {
+    // Dynamically set AWS_LAMBDA_JS_RUNTIME on Vercel to ensure @sparticuz/chromium detects AL2023 compatibility
+    if (!process.env.AWS_LAMBDA_JS_RUNTIME) {
+      const nodeMajor = process.version.split('.')[0].slice(1);
+      process.env.AWS_LAMBDA_JS_RUNTIME = `nodejs${nodeMajor}.x`;
+    }
+    const puppeteerModule = await import('puppeteer-core');
+    puppeteer = puppeteerModule.default || puppeteerModule;
+    const chromiumModule = await import('@sparticuz/chromium');
+    chromium = chromiumModule.default || chromiumModule;
+  } else {
+    puppeteer = require('puppeteer');
+  }
+
   const {
     customer_name,
     date,
