@@ -723,7 +723,7 @@ async function generateQuotationPdf(data) {
       }
     });
 
-    return pdfBuffer;
+    return Buffer.from(pdfBuffer);
   } finally {
     await browser.close();
   }
