@@ -41,10 +41,6 @@ export default function Login({ setToken }) {
     }
   };
 
-  const fillCredentials = (userEmail, userPass) => {
-    setEmail(userEmail);
-    setPassword(userPass);
-  };
 
   return (
     <div className="login-wrapper">
@@ -95,31 +91,7 @@ export default function Login({ setToken }) {
           </button>
         </form>
 
-        <div className="login-tips" style={{ marginTop: '25px' }}>
-          <strong>Testing Accounts:</strong>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '8px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>Admin: admin@roshnisolar.in / admin123</span>
-              <button 
-                type="button"
-                onClick={() => fillCredentials('admin@roshnisolar.in', 'admin123')}
-                style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Use
-              </button>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>User: user@roshnisolar.in / user123</span>
-              <button 
-                type="button"
-                onClick={() => fillCredentials('user@roshnisolar.in', 'user123')}
-                style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Use
-              </button>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );
