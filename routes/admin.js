@@ -346,9 +346,30 @@ router.put('/admin/assumptions', requireAdmin, async (req, res) => {
 
 // GET /api/admin/quotations (Admin only)
 router.get('/admin/quotations', requireAdmin, async (req, res) => {
-  const { search } = req.query;
+  const { search, page = 1, limit = 10 } = req.query;
+  const pageNum = parseInt(page, 10) || 1;
+  const limitNum = parseInt(limit, 10) || 10;
+  const offset = (pageNum - 1) * limitNum;
+
   try {
     const db = await getDbConnection();
+
+    // 1. Get total count of matching quotations
+    let countQuery = `
+      SELECT COUNT(*) 
+      FROM Quotation q
+      JOIN PanelCompany pc ON q.company_id = pc.id
+      JOIN "User" u ON q.created_by = u.id
+    `;
+    const countParams = [];
+    if (search) {
+      countQuery += ` WHERE q.customer_name ILIKE $1 OR pc.name ILIKE $2 OR u.name ILIKE $3`;
+      countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+    const countRes = await db.query(countQuery, countParams);
+    const total = parseInt(countRes.rows[0].count, 10);
+
+    // 2. Get the paginated data
     let query = `
       SELECT q.*, pc.name as company_name, po.watt_size, u.name as creator_name
       FROM Quotation q
@@ -357,13 +378,16 @@ router.get('/admin/quotations', requireAdmin, async (req, res) => {
       JOIN "User" u ON q.created_by = u.id
     `;
     const params = [];
+    let paramIndex = 1;
 
     if (search) {
-      query += ` WHERE q.customer_name ILIKE $1 OR pc.name ILIKE $2 OR u.name ILIKE $3`;
+      query += ` WHERE q.customer_name ILIKE $${paramIndex} OR pc.name ILIKE $${paramIndex+1} OR u.name ILIKE $${paramIndex+2}`;
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+      paramIndex += 3;
     }
 
-    query += ` ORDER BY q.id DESC`;
+    query += ` ORDER BY q.id DESC LIMIT $${paramIndex} OFFSET $${paramIndex+1}`;
+    params.push(limitNum, offset);
 
     const result = await db.query(query, params);
 
@@ -373,7 +397,13 @@ router.get('/admin/quotations', requireAdmin, async (req, res) => {
       computed: JSON.parse(q.computed_fields_json)
     }));
 
-    return res.json(formatted);
+    return res.json({
+      data: formatted,
+      total,
+      page: pageNum,
+      limit: limitNum,
+      totalPages: Math.ceil(total / limitNum)
+    });
   } catch (error) {
     console.error('Fetch admin quotations error:', error);
     return res.status(500).json({ error: 'Internal server error' });

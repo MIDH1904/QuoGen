@@ -36,6 +36,10 @@ export default function Admin({ token }) {
   // 4. Quotation history state
   const [history, setHistory] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [itemsPerPage] = useState(10);
 
   // 5. User Management state
   const [users, setUsers] = useState([]);
@@ -58,7 +62,8 @@ export default function Admin({ token }) {
     } else if (activeTab === 'assumptions') {
       fetchAssumptions();
     } else if (activeTab === 'history') {
-      fetchHistory();
+      setCurrentPage(1);
+      fetchHistory(1);
     } else if (activeTab === 'users') {
       fetchUsers();
     }
@@ -67,7 +72,8 @@ export default function Admin({ token }) {
   // Run history fetch with search input debounce/effect
   useEffect(() => {
     if (activeTab === 'history') {
-      fetchHistory();
+      setCurrentPage(1);
+      fetchHistory(1);
     }
   }, [searchQuery]);
 
@@ -115,21 +121,30 @@ export default function Admin({ token }) {
     }
   };
 
-  const fetchHistory = async () => {
+  const fetchHistory = async (page = 1) => {
     try {
       const url = searchQuery 
-        ? `/api/admin/quotations?search=${encodeURIComponent(searchQuery)}`
-        : '/api/admin/quotations';
+        ? `/api/admin/quotations?search=${encodeURIComponent(searchQuery)}&page=${page}&limit=${itemsPerPage}`
+        : `/api/admin/quotations?page=${page}&limit=${itemsPerPage}`;
       const response = await fetch(url, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
         const data = await response.json();
-        setHistory(data);
+        setHistory(data.data || []);
+        setTotalPages(data.totalPages || 1);
+        setTotalItems(data.total || 0);
+        setCurrentPage(data.page || 1);
       }
     } catch (err) {
       console.error('Fetch history error:', err);
     }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setCurrentPage(newPage);
+    fetchHistory(newPage);
   };
 
   const fetchUsers = async () => {
@@ -160,7 +175,7 @@ export default function Admin({ token }) {
       });
       if (response.ok) {
         setSuccess('Quotation deleted successfully.');
-        fetchHistory();
+        fetchHistory(currentPage);
       } else {
         const data = await response.json();
         setError(data.error || 'Failed to delete quotation.');
@@ -628,6 +643,33 @@ export default function Admin({ token }) {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px', paddingTop: '15px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+              <div style={{ fontSize: '13.5px', color: '#94a3b8' }}>
+                Showing Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong> ({totalItems} total items)
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button 
+                  onClick={() => handlePageChange(currentPage - 1)} 
+                  disabled={currentPage === 1}
+                  className="btn"
+                  style={{ padding: '6px 12px', fontSize: '13px', background: currentPage === 1 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+                >
+                  Previous
+                </button>
+                <button 
+                  onClick={() => handlePageChange(currentPage + 1)} 
+                  disabled={currentPage === totalPages}
+                  className="btn"
+                  style={{ padding: '6px 12px', fontSize: '13px', background: currentPage === totalPages ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
