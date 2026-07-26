@@ -46,6 +46,8 @@ async function generateQuotationPdf(data) {
     kw_required,
     company_name,
     watt_size,
+    customer_address,
+    customer_phone,
     computed // containing calculated values
   } = data;
 
@@ -133,7 +135,7 @@ async function generateQuotationPdf(data) {
     .header-svg {
       display: block;
       width: 100%;
-      height: 110px;
+      height: 130px;
     }
 
     /* Page Content Padding */
@@ -154,7 +156,7 @@ async function generateQuotationPdf(data) {
     .footer-svg {
       display: block;
       width: 100%;
-      height: 80px;
+      height: 105px;
     }
 
     .footer-text-block {
@@ -369,8 +371,12 @@ async function generateQuotationPdf(data) {
           </td>
         </tr>
         <tr>
-          <td class="meta-label">ADD-</td>
-          <td class="meta-value">B 23 VAIKUNTHDHAM TENAMEN, NR.AIR FORCE M PURA ROAD,</td>
+          <td class="meta-label">ADD -</td>
+          <td class="meta-value">${customer_address || ''}</td>
+        </tr>
+        <tr>
+          <td class="meta-label">TEL -</td>
+          <td class="meta-value">${customer_phone || ''}</td>
         </tr>
       </table>
 

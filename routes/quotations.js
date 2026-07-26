@@ -4,9 +4,8 @@ const { getDbConnection } = require('../database');
 const { requireAuth } = require('../middleware/auth');
 const { generateQuotationPdf } = require('../utils/pdfGenerator');
 
-// POST /api/quotations (User & Admin)
 router.post('/quotations', requireAuth, async (req, res) => {
-  const { customer_name, kw_required, company_id, panel_option_id } = req.body;
+  const { customer_name, kw_required, company_id, panel_option_id, customer_address, customer_phone } = req.body;
 
   if (!customer_name || !kw_required || !company_id || !panel_option_id) {
     return res.status(400).json({ error: 'All fields are required' });
@@ -108,8 +107,10 @@ router.post('/quotations', requireAuth, async (req, res) => {
         company_id,
         panel_option_id,
         computed_fields_json,
-        created_by
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id
+        created_by,
+        customer_address,
+        customer_phone
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id
     `, [
       customer_name.trim(),
       dateStr,
@@ -117,7 +118,9 @@ router.post('/quotations', requireAuth, async (req, res) => {
       company_id,
       panel_option_id,
       JSON.stringify(computed_fields),
-      req.user.id
+      req.user.id,
+      customer_address ? customer_address.trim() : null,
+      customer_phone ? customer_phone.trim() : null
     ]);
 
     const quotationId = result.rows[0].id;
@@ -191,13 +194,14 @@ router.get('/quotations/:id/pdf', requireAuth, async (req, res) => {
 
     const computed = JSON.parse(q.computed_fields_json);
 
-    // Call Puppeteer PDF generator
     const pdfBuffer = await generateQuotationPdf({
       customer_name: q.customer_name,
       date: q.date,
       kw_required: q.kw_required,
       company_name: q.company_name,
       watt_size: q.watt_size,
+      customer_address: q.customer_address,
+      customer_phone: q.customer_phone,
       computed
     });
 

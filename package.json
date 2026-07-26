@@ -1,7 +1,7 @@
 {
-  "name": "roshni-solar-quotation-gen",
+  "name": "quogen",
   "version": "1.0.0",
-  "description": "Full-stack web application to generate solar rooftop quotation PDFs for Roshni Solar",
+  "description": "Full-stack web application to generate solar rooftop quotation PDFs (QuoGen)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

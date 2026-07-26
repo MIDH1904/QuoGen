@@ -381,7 +381,7 @@ router.get('/admin/quotations', requireAdmin, async (req, res) => {
 });
 
 // DELETE /api/admin/quotations/:id (Admin only)
-router.delete('/api/admin/quotations/:id', requireAdmin, async (req, res) => {
+router.delete('/admin/quotations/:id', requireAdmin, async (req, res) => {
   const { id } = req.params;
   try {
     const db = await getDbConnection();

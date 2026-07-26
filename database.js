@@ -82,8 +82,18 @@ async function initializeDatabase() {
         company_id INTEGER NOT NULL REFERENCES PanelCompany(id),
         panel_option_id INTEGER NOT NULL REFERENCES PanelOption(id),
         computed_fields_json TEXT NOT NULL,
-        created_by INTEGER NOT NULL REFERENCES "User"(id)
+        created_by INTEGER NOT NULL REFERENCES "User"(id),
+        customer_address TEXT,
+        customer_phone VARCHAR(50)
       )
+    `);
+
+    // Ensure columns exist in case the table was already created
+    await client.query(`
+      ALTER TABLE Quotation ADD COLUMN IF NOT EXISTS customer_address TEXT;
+    `);
+    await client.query(`
+      ALTER TABLE Quotation ADD COLUMN IF NOT EXISTS customer_phone VARCHAR(50);
     `);
 
     // --- SEED DATA ---

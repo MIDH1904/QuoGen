@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Download, Sparkles, AlertCircle } from 'lucide-react';
+import { FileText, Download, Sparkles, AlertCircle, Send } from 'lucide-react';
 
 export default function Index({ token, user }) {
   const [customerName, setCustomerName] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
   const [kwRequired, setKwRequired] = useState('');
   const [companies, setCompanies] = useState([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState('');
@@ -90,6 +92,8 @@ export default function Index({ token, user }) {
         },
         body: JSON.stringify({
           customer_name: customerName,
+          customer_address: customerAddress,
+          customer_phone: customerPhone,
           kw_required: kwRequired,
           company_id: selectedCompanyId,
           panel_option_id: selectedOptionId
@@ -145,6 +149,17 @@ export default function Index({ token, user }) {
     document.body.removeChild(link);
   };
 
+  const handleWhatsAppSend = () => {
+    if (!customerPhone || !computedData) return;
+    let cleanPhone = customerPhone.replace(/\D/g, '');
+    if (cleanPhone.length === 10) {
+      cleanPhone = '91' + cleanPhone;
+    }
+    const message = `Hello ${customerName},\n\nHere is your quotation for solar rooftop system:\n- Capacity: ${computedData.actual_kw} kW (${computedData.panel_count} panels)\n- Net Payable: ₹${Math.round(computedData.net_payable).toLocaleString('en-IN')}/-\n- Govt. Subsidy: ₹${Math.round(computedData.subsidy).toLocaleString('en-IN')}/-\n- Effective Cost: ₹${Math.round(computedData.cost_after_subsidy).toLocaleString('en-IN')}/-\n- Payback Period: Approx. ${computedData.payback_years} years\n\nGenerated via QuoGen.`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${cleanPhone}?text=${encodedMessage}`, '_blank');
+  };
+
   return (
     <div className="dashboard-container">
       <div style={{ marginBottom: '30px' }}>
@@ -188,6 +203,32 @@ export default function Index({ token, user }) {
                 onChange={(e) => setCustomerName(e.target.value)}
                 disabled={loading}
                 required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="customerAddress">Customer Address (Optional)</label>
+              <input
+                id="customerAddress"
+                type="text"
+                className="form-control"
+                placeholder="e.g. B 23 Vaikunthdham Tenement, Vadodara"
+                value={customerAddress}
+                onChange={(e) => setCustomerAddress(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="customerPhone">Customer Phone Number (Optional)</label>
+              <input
+                id="customerPhone"
+                type="text"
+                className="form-control"
+                placeholder="e.g. 9227104121"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                disabled={loading}
               />
             </div>
 
@@ -305,13 +346,20 @@ export default function Index({ token, user }) {
                 src={`${pdfUrl}#toolbar=0`}
                 className="pdf-viewer-iframe"
               />
-              <div className="pdf-actions">
+              <div className="pdf-actions" style={{ gap: '10px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '13.5px', color: '#94a3b8' }}>
                   A4 Fixed PDF Layout Generated
                 </span>
-                <button onClick={handleDownload} className="btn btn-success">
-                  <Download size={16} /> Download PDF
-                </button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button onClick={handleDownload} className="btn btn-success">
+                    <Download size={16} /> Download PDF
+                  </button>
+                  {customerPhone && (
+                    <button onClick={handleWhatsAppSend} className="btn btn-success" style={{ backgroundColor: '#25D366', borderColor: '#25D366', color: '#ffffff' }}>
+                      <Send size={16} /> WhatsApp
+                    </button>
+                  )}
+                </div>
               </div>
             </>
           ) : (
