@@ -155,7 +155,7 @@ export default function Index({ token, user }) {
     if (cleanPhone.length === 10) {
       cleanPhone = '91' + cleanPhone;
     }
-    const message = `Hello ${customerName},\n\nHere is your quotation for solar rooftop system:\n- Capacity: ${computedData.actual_kw} kW (${computedData.panel_count} panels)\n- Net Payable: ₹${Math.round(computedData.net_payable).toLocaleString('en-IN')}/-\n- Govt. Subsidy: ₹${Math.round(computedData.subsidy).toLocaleString('en-IN')}/-\n- Effective Cost: ₹${Math.round(computedData.cost_after_subsidy).toLocaleString('en-IN')}/-\n- Payback Period: Approx. ${computedData.payback_years} years\n\nGenerated via QuoGen.`;
+    const message = `Hello ${customerName},\n\nHere is your quotation for solar rooftop system:\n- Capacity: ${computedData.actual_kw} kW (${computedData.panel_count} panels)\n- Net Payable: ₹${Math.round(computedData.net_payable).toLocaleString('en-IN')}/-\n- Govt. Subsidy: ₹${Math.round(computedData.subsidy).toLocaleString('en-IN')}/-\n- Effective Cost: ₹${Math.round(computedData.cost_after_subsidy).toLocaleString('en-IN')}/-\n- Payback Period: Approx. ${computedData.payback_years} years\n\nGenerated via Roshni Solar.`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${cleanPhone}?text=${encodedMessage}`, '_blank');
   };

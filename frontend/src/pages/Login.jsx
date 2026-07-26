@@ -51,7 +51,7 @@ export default function Login({ setToken }) {
       <div className="glass-card login-card">
         <div className="login-logo">
           <Sun size={48} />
-          <h2>QuoGen</h2>
+          <h2>ROSHNI SOLAR</h2>
           <span style={{ fontSize: '13px', color: '#94a3b8', letterSpacing: '1px' }}>QUOTATION MANAGER</span>
         </div>
 

@@ -118,15 +118,15 @@ async function generateQuotationPdf(data) {
     .brand-title {
       font-size: 24px;
       font-weight: 700;
-      color: #ffffff;
+      color: #1e3a8a;
       letter-spacing: 1px;
       margin: 0;
     }
 
     .brand-subtitle {
       font-size: 11px;
-      font-weight: 400;
-      color: #e2e8f0;
+      font-weight: 500;
+      color: #475569;
       margin: 0;
       letter-spacing: 0.5px;
       margin-top: -2px;
@@ -135,7 +135,7 @@ async function generateQuotationPdf(data) {
     .header-svg {
       display: block;
       width: 100%;
-      height: 130px;
+      height: 160px;
     }
 
     /* Page Content Padding */
@@ -156,20 +156,20 @@ async function generateQuotationPdf(data) {
     .footer-svg {
       display: block;
       width: 100%;
-      height: 105px;
+      height: 130px;
     }
 
     .footer-text-block {
       position: absolute;
-      bottom: 12px;
+      bottom: 25px;
       left: 0;
       right: 0;
       text-align: center;
-      color: #ffffff;
+      color: #0f172a;
       font-size: 11px;
       line-height: 1.5;
       z-index: 10;
-      font-weight: 400;
+      font-weight: 500;
     }
 
     /* Typography & Layout elements */
@@ -329,10 +329,10 @@ async function generateQuotationPdf(data) {
         </div>
       </div>
       <svg class="header-svg" viewBox="0 0 1000 110" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,0 L1000,0 L1000,60 C900,30 800,90 600,45 C400,0 200,105 0,37 Z" fill="#1e3a8a"/>
-        <path d="M0,0 L1000,0 L1000,45 C900,22 800,67 600,33 C400,0 200,75 0,30 Z" fill="#10b981" opacity="0.8"/>
-        <path d="M0,0 L1000,0 L1000,30 C900,15 800,45 600,22 C400,0 200,52 0,22 Z" fill="#f59e0b" opacity="0.6"/>
-        <path d="M0,0 L1000,0 L1000,15 C900,7 800,22 600,11 C400,0 200,30 0,15 Z" fill="#ef4444" opacity="0.4"/>
+        <path d="M0,0 L1000,0 L1000,60 C900,30 800,90 600,45 C400,0 200,105 0,37 Z" fill="#bfdbfe"/>
+        <path d="M0,0 L1000,0 L1000,45 C900,22 800,67 600,33 C400,0 200,75 0,30 Z" fill="#a7f3d0" opacity="0.8"/>
+        <path d="M0,0 L1000,0 L1000,30 C900,15 800,45 600,22 C400,0 200,52 0,22 Z" fill="#fde68a" opacity="0.6"/>
+        <path d="M0,0 L1000,0 L1000,15 C900,7 800,22 600,11 C400,0 200,30 0,15 Z" fill="#fecaca" opacity="0.4"/>
       </svg>
     </div>
 
@@ -408,10 +408,10 @@ async function generateQuotationPdf(data) {
 
     <div class="footer-container">
       <svg class="footer-svg" viewBox="0 0 1000 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,80 L1000,80 L1000,30 C900,60 700,10 500,55 C300,10 100,50 0,25 Z" fill="#1e3a8a"/>
-        <path d="M0,80 L1000,80 L1000,38 C900,64 700,18 500,59 C300,18 100,54 0,33 Z" fill="#10b981" opacity="0.8"/>
-        <path d="M0,80 L1000,80 L1000,45 C900,68 700,25 500,63 C300,25 100,58 0,40 Z" fill="#f59e0b" opacity="0.6"/>
-        <path d="M0,80 L1000,80 L1000,52 C900,72 700,32 500,67 C300,32 100,62 0,48 Z" fill="#ef4444" opacity="0.4"/>
+        <path d="M0,80 L1000,80 L1000,30 C900,60 700,10 500,55 C300,10 100,50 0,25 Z" fill="#bfdbfe"/>
+        <path d="M0,80 L1000,80 L1000,38 C900,64 700,18 500,59 C300,18 100,54 0,33 Z" fill="#a7f3d0" opacity="0.8"/>
+        <path d="M0,80 L1000,80 L1000,45 C900,68 700,25 500,63 C300,25 100,58 0,40 Z" fill="#fde68a" opacity="0.6"/>
+        <path d="M0,80 L1000,80 L1000,52 C900,72 700,32 500,67 C300,32 100,62 0,48 Z" fill="#fecaca" opacity="0.4"/>
       </svg>
       <div class="footer-text-block">
         B-3, Rishikesh Soc., Opp Novino Company, Makarpura Main Road, Vadodara. M.: 9227104121.<br>
@@ -434,10 +434,10 @@ async function generateQuotationPdf(data) {
         </div>
       </div>
       <svg class="header-svg" viewBox="0 0 1000 110" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,0 L1000,0 L1000,60 C900,30 800,90 600,45 C400,0 200,105 0,37 Z" fill="#1e3a8a"/>
-        <path d="M0,0 L1000,0 L1000,45 C900,22 800,67 600,33 C400,0 200,75 0,30 Z" fill="#10b981" opacity="0.8"/>
-        <path d="M0,0 L1000,0 L1000,30 C900,15 800,45 600,22 C400,0 200,52 0,22 Z" fill="#f59e0b" opacity="0.6"/>
-        <path d="M0,0 L1000,0 L1000,15 C900,7 800,22 600,11 C400,0 200,30 0,15 Z" fill="#ef4444" opacity="0.4"/>
+        <path d="M0,0 L1000,0 L1000,60 C900,30 800,90 600,45 C400,0 200,105 0,37 Z" fill="#bfdbfe"/>
+        <path d="M0,0 L1000,0 L1000,45 C900,22 800,67 600,33 C400,0 200,75 0,30 Z" fill="#a7f3d0" opacity="0.8"/>
+        <path d="M0,0 L1000,0 L1000,30 C900,15 800,45 600,22 C400,0 200,52 0,22 Z" fill="#fde68a" opacity="0.6"/>
+        <path d="M0,0 L1000,0 L1000,15 C900,7 800,22 600,11 C400,0 200,30 0,15 Z" fill="#fecaca" opacity="0.4"/>
       </svg>
     </div>
 
@@ -682,10 +682,10 @@ async function generateQuotationPdf(data) {
 
     <div class="footer-container">
       <svg class="footer-svg" viewBox="0 0 1000 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,80 L1000,80 L1000,30 C900,60 700,10 500,55 C300,10 100,50 0,25 Z" fill="#1e3a8a"/>
-        <path d="M0,80 L1000,80 L1000,38 C900,64 700,18 500,59 C300,18 100,54 0,33 Z" fill="#10b981" opacity="0.8"/>
-        <path d="M0,80 L1000,80 L1000,45 C900,68 700,25 500,63 C300,25 100,58 0,40 Z" fill="#f59e0b" opacity="0.6"/>
-        <path d="M0,80 L1000,80 L1000,52 C900,72 700,32 500,67 C300,32 100,62 0,48 Z" fill="#ef4444" opacity="0.4"/>
+        <path d="M0,80 L1000,80 L1000,30 C900,60 700,10 500,55 C300,10 100,50 0,25 Z" fill="#bfdbfe"/>
+        <path d="M0,80 L1000,80 L1000,38 C900,64 700,18 500,59 C300,18 100,54 0,33 Z" fill="#a7f3d0" opacity="0.8"/>
+        <path d="M0,80 L1000,80 L1000,45 C900,68 700,25 500,63 C300,25 100,58 0,40 Z" fill="#fde68a" opacity="0.6"/>
+        <path d="M0,80 L1000,80 L1000,52 C900,72 700,32 500,67 C300,32 100,62 0,48 Z" fill="#fecaca" opacity="0.4"/>
       </svg>
       <div class="footer-text-block">
         B-3, Rishikesh Soc., Opp Novino Company, Makarpura Main Road, Vadodara. M.: 9227104121.<br>

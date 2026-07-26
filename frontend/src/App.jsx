@@ -62,7 +62,7 @@ export default function App() {
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
           <Sun size={48} color="#f59e0b" style={{ animation: 'spinSlow 2s linear infinite' }} />
-          <span>Loading QuoGen...</span>
+          <span>Loading Roshni Solar...</span>
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ export default function App() {
         <nav className="navbar">
           <Link to="/" className="nav-brand">
             <Sun size={26} />
-            <span>QuoGen</span>
+            <span>ROSHNI SOLAR</span>
           </Link>
           <div className="nav-links">
             <Link to="/" className="nav-link">
